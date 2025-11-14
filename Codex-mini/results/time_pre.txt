@@ -1,0 +1,1 @@
+time_to_first_frame_ms: 1200\naverage_stall_ms: 450

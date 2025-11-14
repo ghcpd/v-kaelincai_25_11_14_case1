@@ -1,0 +1,115 @@
+{
+  "version": "1.0",
+  "tests": [
+    {
+      "id": "resume",
+      "description": "User reopens course and resume-from-last-position is verified.",
+      "initial_conditions": {
+        "user": "u1",
+        "course_id": "C101",
+        "saved_progress": 125.7,
+        "learned_segments": ["seg1"]
+      },
+      "network_profile": {
+        "bandwidth_mbps": 5,
+        "latency_ms": 80,
+        "packet_loss": 0
+      },
+      "expected": {
+        "resume_accuracy": 1.0,
+        "playback_rate": 1,
+        "current_quality": "720p",
+        "notes_synced": [{"t": 126.5, "text": "Key point"}]
+      }
+    },
+    {
+      "id": "playback_speed",
+      "description": "Changing playback rate to 0.75x, 1.5x, and 2x should persist per session.",
+      "initial_conditions": {
+        "user": "u2",
+        "course_id": "C202",
+        "saved_progress": 10.5,
+        "learned_segments": []
+      },
+      "network_profile": {
+        "bandwidth_mbps": 3,
+        "latency_ms": 40,
+        "packet_loss": 0
+      },
+      "expected": {
+        "playback_rate_sequence": [0.75, 1.5, 2],
+        "audio_video_sync": true
+      }
+    },
+    {
+      "id": "auto_skip",
+      "description": "Auto-skip learned segments honors toggles and does not skip unlearned segments.",
+      "initial_conditions": {
+        "user": "u3",
+        "course_id": "C303",
+        "saved_progress": 60,
+        "learned_segments": ["seg3"],
+        "auto_skip": true
+      },
+      "network_profile": {
+        "bandwidth_mbps": 1.5,
+        "latency_ms": 120,
+        "packet_loss": 0.02
+      },
+      "expected": {
+        "skipped_segments": ["seg3"],
+        "stayed_segments": ["seg4"]
+      }
+    },
+    {
+      "id": "performance",
+      "description": "Low-bandwidth profile measures time-to-first-frame, stalls, and resolution switches.",
+      "initial_conditions": {
+        "user": "u4",
+        "course_id": "C404",
+        "saved_progress": 10,
+        "learned_segments": []
+      },
+      "network_profile": {
+        "bandwidth_mbps": 0.5,
+        "latency_ms": 200,
+        "packet_loss": 0.05
+      },
+      "expected": {
+        "time_to_first_frame_ms": 800,
+        "max_stall_duration_ms": 300,
+        "resolution_switch_time_ms": 250
+      }
+    },
+    {
+      "id": "notes_sync",
+      "description": "Notes with timestamps should hover to reveal quick-jump targets.",
+      "initial_conditions": {
+        "user": "u5",
+        "course_id": "C505",
+        "saved_progress": 220,
+        "learned_segments": [],
+        "notes": [
+          {"t": 225.0, "text": "Deep dive"},
+          {"t": 240.5, "text": "Quiz prep"}
+        ]
+      },
+      "network_profile": {
+        "bandwidth_mbps": 4,
+        "latency_ms": 60,
+        "packet_loss": 0
+      },
+      "expected": {
+        "jumped_time": 225.0,
+        "hover_preview": true
+      }
+    }
+  ],
+  "acceptance_criteria": {
+    "resume_tolerance_sec": 1.0,
+    "playback_rate_range": [0.75, 2],
+    "time_to_first_frame_ms": 800,
+    "max_stall_ms": 300,
+    "resolution_switch_ms": 300
+  }
+}

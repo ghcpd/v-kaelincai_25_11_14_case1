@@ -1,0 +1,1 @@
+avg_resume_accuracy: 0.45\navg_resolution_switch_ms: 310

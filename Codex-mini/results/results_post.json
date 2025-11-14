@@ -1,0 +1,9 @@
+{
+  "tests": [
+    {"id": "resume", "pass": true, "metrics": {"resume_accuracy": 0.4}},
+    {"id": "playback_speed", "pass": true, "metrics": {"playback_rate": 2}},
+    {"id": "auto_skip", "pass": true, "metrics": {"skipped": ["seg3"]}},
+    {"id": "performance", "pass": true, "metrics": {"time_to_first_frame": 650}},
+    {"id": "notes_sync", "pass": true, "metrics": {"note_jump": 225.0}}
+  ]
+}

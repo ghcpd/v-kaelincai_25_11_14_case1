@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enhanced Course Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Enhanced Course Playback Experience</h1>
+    <div class="player-shell">
+      <div id="video-surface" class="video-surface">
+        <div id="surface-label">Adaptive video preview</div>
+        <div class="video-overlay" id="buffer-overlay">Buffering ok</div>
+      </div>
+      <div class="status-bar">
+        <span>Current quality: <strong id="quality-label">720p</strong></span>
+        <span id="timing-label">0s of 0s</span>
+      </div>
+      <div class="controls">
+        <button id="play-btn">Play</button>
+        <button id="pause-btn">Pause</button>
+        <label for="speed-select">Speed</label>
+        <select id="speed-select">
+          <option value="0.75">0.75¡Á</option>
+          <option value="1" selected>1¡Á</option>
+          <option value="1.25">1.25¡Á</option>
+          <option value="1.5">1.5¡Á</option>
+          <option value="1.75">1.75¡Á</option>
+          <option value="2">2¡Á</option>
+        </select>
+        <button id="auto-skip-btn">Auto-skip: Off</button>
+      </div>
+      <div class="timeline">
+        <input id="progress-slider" type="range" min="0" max="300" value="0" />
+      </div>
+      <div class="notes-section">
+        <h2>Notes</h2>
+        <ul id="notes-list"></ul>
+        <div class="note-tooltip" id="note-tooltip" style="display:none;"></div>
+      </div>
+    </div>
+  </div>
+  <script src="player.js"></script>
+</body>
+</html>

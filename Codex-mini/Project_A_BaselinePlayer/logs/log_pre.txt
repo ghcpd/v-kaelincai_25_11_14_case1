@@ -1,0 +1,4 @@
+[INFO] Baseline server started on port 5000
+[INFO] Notes endpoint polled by front-end
+[INFO] Test resume scenario triggered; no resume cache
+[INFO] Captured placeholder metrics: time_to_first_frame=1200ms

@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {"id": "resume", "pass": false, "notes": "Baseline player does not resume"},
+    {"id": "playback_speed", "pass": false, "notes": "No speed controls available"},
+    {"id": "auto_skip", "pass": false, "notes": "Skipping logic not implemented"},
+    {"id": "performance", "pass": true, "notes": "Stub metrics only"},
+    {"id": "notes_sync", "pass": false, "notes": "Notes list is static"}
+  ],
+  "elapsed_s": 6.2
+}

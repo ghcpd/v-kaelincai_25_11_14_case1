@@ -1,0 +1,6 @@
+{
+  "profiles": [
+    {"name": "default", "bandwidth_mbps": 5, "latency_ms": 80},
+    {"name": "constrained", "bandwidth_mbps": 1, "latency_ms": 250}
+  ]
+}
