@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Enhanced Player</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    #canvas { border: 1px solid #ccc; width: 640px; height: 360px; background: #000; }
+    .controls { margin-top: 10px; }
+    #notes { margin-top: 10px; }
+    .note { padding: 3px; border-bottom: 1px solid #eee; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Enhanced Player</h1>
+  <div>
+    <button id="play">Play</button>
+    <button id="pause">Pause</button>
+    <label>Speed: <select id="rate"><option>0.75</option><option selected>1</option><option>1.25</option><option>1.5</option><option>2</option></select></label>
+    <label>Auto-skip learned: <input id="auto-skip" type="checkbox" /></label>
+    <span id="status">Idle</span>
+  </div>
+  <canvas id="canvas" width="640" height="360"></canvas>
+  <div id="notes"><h3>Notes</h3></div>
+  <script src="player.js"></script>
+</body>
+</html>

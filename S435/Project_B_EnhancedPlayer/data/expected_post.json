@@ -1,0 +1,9 @@
+{
+  "thresholds":{
+    "resume_tolerance_s":1.0,
+    "ttf_ms":800,
+    "resolution_switch_stall_ms":300,
+    "adaptive_lower_quality_threshold_ms":700
+  }
+}
+
