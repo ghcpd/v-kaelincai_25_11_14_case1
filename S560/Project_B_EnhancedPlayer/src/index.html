@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Enhanced Course Player (Project B)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    #player-container { max-width: 900px; margin: 0 auto; }
+    #notes { margin-top: 12px; border: 1px solid #ddd; padding: 8px; height: 160px; overflow: auto; }
+    .note { padding: 4px; border-bottom: 1px dashed #eee; cursor: pointer; }
+    .note:hover { background: #f6f6f6; }
+    #controls { display: flex; gap: 12px; align-items:center; margin-top:10px; }
+  </style>
+</head>
+<body>
+  <div id="player-container">
+    <h2>Enhanced Course Player — Resume, speeds, skip, adaptive loading, notes sync</h2>
+    <video id="courseVideo" width="860" height="480" controls muted>
+      <source src="/video/720p" type="video/mp4">
+      Your browser does not support the HTML5 Video tag.
+    </video>
+    <div id="controls">
+      <label>Speed</label>
+      <select id="speedSelect">
+        <option value="0.75">0.75×</option>
+        <option value="1.0">1.0×</option>
+        <option value="1.25">1.25×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2.0">2.0×</option>
+      </select>
+      <label><input type="checkbox" id="autoSkipToggle"> Auto-skip learned segments</label>
+      <button id="markSegmentBtn">Mark Current Segment Learned</button>
+    </div>
+
+    <h3>Time-synced Notes</h3>
+    <div id="notes"></div>
+  </div>
+  <script src="/static/player.js"></script>
+</body>
+</html>

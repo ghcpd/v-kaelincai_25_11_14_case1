@@ -1,0 +1,1 @@
+Post logs placeholder. The server writes progress and learned segments; capture full logs during test runs.

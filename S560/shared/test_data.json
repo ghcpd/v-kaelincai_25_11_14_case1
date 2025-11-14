@@ -1,0 +1,59 @@
+[
+  {
+    "id": "TC1_resume_normal",
+    "description": "Normal resume: reopen course and resume near last timestamp",
+    "initial_state": { "user": "u1", "saved_progress": 125.7 },
+    "network_profile": { "bandwidth_kbps": 1500, "latency_ms": 50 },
+    "actions": [
+      { "action": "open_course", "course_id": "C101", "user": "u1" }
+    ],
+    "expected": { "resume_time_s": 125.7, "resume_accuracy_s": 1.0 }
+  },
+  {
+    "id": "TC2_playback_speed",
+    "description": "Change playback speed to 0.75x, 1.5x and 2x and verify persistence",
+    "initial_state": { "user": "u2", "saved_progress": 10 },
+    "network_profile": { "bandwidth_kbps": 3000, "latency_ms": 20 },
+    "actions": [
+      { "action": "open_course", "course_id": "C101", "user": "u2" },
+      { "action": "set_playback_rate", "rate": 0.75 },
+      { "action": "set_playback_rate", "rate": 1.5 },
+      { "action": "set_playback_rate", "rate": 2.0 }
+    ],
+    "expected": { "rates_applied": [0.75, 1.5, 2.0], "audio_video_sync_tolerance_ms": 200 }
+  },
+  {
+    "id": "TC3_auto_skip_learned",
+    "description": "Mark some segments as learned and verify they are auto-skipped with enabled toggle",
+    "initial_state": { "user": "u3", "saved_progress": 0, "learned_segments": [[0,30],[90,105]] },
+    "network_profile": { "bandwidth_kbps": 800, "latency_ms": 80 },
+    "actions": [
+      { "action": "open_course", "course_id": "C101", "user": "u3" },
+      { "action": "toggle_auto_skip", "enabled": true }
+    ],
+    "expected": { "skipped_segments": [[0,30],[90,105]], "skip_accuracy_s": 1 }
+  },
+  {
+    "id": "TC4_network_constrained_performance",
+    "description": "Simulate low bandwidth/high latency and measure time-to-first-frame, rebuffer events, and quality switching",
+    "initial_state": { "user": "u4", "saved_progress": 5 },
+    "network_profile": { "bandwidth_kbps": 300, "latency_ms": 200 },
+    "actions": [
+      { "action": "open_course", "course_id": "C101", "user": "u4" },
+      { "action": "play", "duration_s": 15 }
+    ],
+    "expected": { "time_to_first_frame_ms": 800, "max_rebuffer_ms": 300, "allowed_rebuffers": 3 }
+  },
+  {
+    "id": "TC5_notes_sync_and_jump",
+    "description": "Create notes with timestamps, hover and click to jump to timestamped playback position",
+    "initial_state": { "user": "u5", "saved_progress": 0, "notes": [{"t": 12.5, "text": "Key point"}] },
+    "network_profile": { "bandwidth_kbps": 1200, "latency_ms": 20 },
+    "actions": [
+      { "action": "open_course", "course_id": "C101", "user": "u5" },
+      { "action": "hover_note", "t": 12.5 },
+      { "action": "click_note", "t": 12.5 }
+    ],
+    "expected": { "jump_time_s": 12.5, "jump_tolerance_s": 1 }
+  }
+]
