@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Enhanced Course Player</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 24px; background: #f0f4ff; }
+      #player-container { max-width: 960px; margin: 0 auto; background: #fff; border: 1px solid #cad4ff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+      video { width: 100%; height: auto; background: #000; border-radius: 6px; }
+      #controls { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin-top: 14px; padding: 10px; border: 1px dashed #dbe0ff; border-radius: 6px; }
+      label { font-weight: bold; }
+      #notes { margin-top: 16px; border: 1px solid #d0d7ff; padding: 12px; border-radius: 6px; min-height: 140px; }
+      .note { padding: 6px; border-bottom: 1px dashed #eef; cursor: pointer; transition: background 0.2s; }
+      .note:hover { background: #eef3ff; }
+      .note.active { background: #cfe0ff; }
+      #networkStatus { font-size: 0.9rem; color: #445; margin-top: 8px; }
+    </style>
+  </head>
+  <body>
+    <div id="player-container">
+      <h2>Enhanced Course Player (resume + speed + auto-skip + adaptive + notes)</h2>
+      <video id="courseVideo" controls muted>
+        <source src="/video/720p" type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+      <div id="controls">
+        <label for="speedSelect">Speed</label>
+        <select id="speedSelect">
+          <option value="0.75">0.75×</option>
+          <option value="1.0">1.0×</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+          <option value="2.0">2.0×</option>
+        </select>
+        <label><input type="checkbox" id="autoSkipToggle" /> Auto-skip learned segments</label>
+        <button id="markSegmentBtn">Mark Current 30s Learned</button>
+        <button id="forceSwitchBtn">Force Adaptive Switch</button>
+      </div>
+      <div id="networkStatus">Network profile: <span id="networkProfileText">-</span></div>
+      <h3>Time-synced Notes</h3>
+      <div id="notes"></div>
+    </div>
+    <script src="/static/player.js"></script>
+  </body>
+</html>

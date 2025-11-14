@@ -1,0 +1,121 @@
+{
+  "avg_time_to_first_frame_ms": 119.62,
+  "cases": [
+    {
+      "id": "TC1_resume_normal",
+      "metrics": {
+        "testId": "TC1_resume_normal",
+        "timeToFirstFrameMs": 83.89999999850988,
+        "timeupdateEvents": [
+          1
+        ],
+        "networkProfile": {
+          "bw": 1500,
+          "latency": 50,
+          "jitter": 20
+        },
+        "resumeSupported": false,
+        "playbackRate": 1,
+        "currentTime": 1,
+        "meets_ttf_requirement": true,
+        "resume_error_s": 124.7,
+        "resume_within_tolerance": false,
+        "screenshot": "C:\\c\\chatWorkspace\\Project_A_BaselinePlayer\\screenshots\\screenshot_pre_TC1_resume_normal.png",
+        "elapsed_s": 1.11
+      }
+    },
+    {
+      "id": "TC2_playback_speed",
+      "metrics": {
+        "testId": "TC2_playback_speed",
+        "timeToFirstFrameMs": 91,
+        "timeupdateEvents": [
+          1
+        ],
+        "networkProfile": {
+          "bw": 3000,
+          "latency": 20,
+          "jitter": 5
+        },
+        "resumeSupported": false,
+        "playbackRate": 1,
+        "currentTime": 1,
+        "meets_ttf_requirement": true,
+        "resume_error_s": 9,
+        "resume_within_tolerance": true,
+        "screenshot": "C:\\c\\chatWorkspace\\Project_A_BaselinePlayer\\screenshots\\screenshot_pre_TC2_playback_speed.png",
+        "elapsed_s": 1.0
+      }
+    },
+    {
+      "id": "TC3_auto_skip_learned",
+      "metrics": {
+        "testId": "TC3_auto_skip_learned",
+        "timeToFirstFrameMs": 95,
+        "timeupdateEvents": [
+          1
+        ],
+        "networkProfile": {
+          "bw": 800,
+          "latency": 80,
+          "jitter": 25
+        },
+        "resumeSupported": false,
+        "playbackRate": 1,
+        "currentTime": 1,
+        "meets_ttf_requirement": true,
+        "resume_error_s": 1,
+        "resume_within_tolerance": true,
+        "screenshot": "C:\\c\\chatWorkspace\\Project_A_BaselinePlayer\\screenshots\\screenshot_pre_TC3_auto_skip_learned.png",
+        "elapsed_s": 0.98
+      }
+    },
+    {
+      "id": "TC4_network_constrained_performance",
+      "metrics": {
+        "testId": "TC4_network_constrained_performance",
+        "timeToFirstFrameMs": 235.70000000298023,
+        "timeupdateEvents": [
+          1
+        ],
+        "networkProfile": {
+          "bw": 300,
+          "latency": 200,
+          "jitter": 60
+        },
+        "resumeSupported": false,
+        "playbackRate": 1,
+        "currentTime": 1,
+        "meets_ttf_requirement": true,
+        "resume_error_s": 4,
+        "resume_within_tolerance": true,
+        "screenshot": "C:\\c\\chatWorkspace\\Project_A_BaselinePlayer\\screenshots\\screenshot_pre_TC4_network_constrained_performance.png",
+        "elapsed_s": 0.98
+      }
+    },
+    {
+      "id": "TC5_notes_sync_and_jump",
+      "metrics": {
+        "testId": "TC5_notes_sync_and_jump",
+        "timeToFirstFrameMs": 92.5,
+        "timeupdateEvents": [
+          1
+        ],
+        "networkProfile": {
+          "bw": 1200,
+          "latency": 20,
+          "jitter": 10
+        },
+        "resumeSupported": false,
+        "playbackRate": 1,
+        "currentTime": 1,
+        "meets_ttf_requirement": true,
+        "resume_error_s": 1,
+        "resume_within_tolerance": true,
+        "screenshot": "C:\\c\\chatWorkspace\\Project_A_BaselinePlayer\\screenshots\\screenshot_pre_TC5_notes_sync_and_jump.png",
+        "elapsed_s": 0.98
+      }
+    }
+  ],
+  "generated_at": 1763088616.8614497
+}

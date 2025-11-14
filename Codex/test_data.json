@@ -1,0 +1,159 @@
+[
+  {
+    "id": "TC1_resume_normal",
+    "description": "User reopens course and should resume near last timestamp.",
+    "actions": [
+      {"action": "open_course", "course_id": "C101", "user": "u1"},
+      {"action": "wait_seconds", "value": 2},
+      {"action": "observe_state"}
+    ],
+    "initial_state": {
+      "saved_progress_s": 125.7,
+      "playback_rate": 1.0,
+      "learned_segments": [],
+      "notes": [
+        {"t": 126.5, "text": "Key takeaway near resume point"}
+      ]
+    },
+    "network_profile": {
+      "bandwidth_kbps": 1500,
+      "latency_ms": 50,
+      "jitter_ms": 20
+    },
+    "expected_state": {
+      "start_time_s": 125.7,
+      "playback_rate": 1.0,
+      "current_quality": "720p"
+    },
+    "acceptance": {
+      "resume_accuracy_s": 1.0,
+      "max_time_to_first_frame_ms": 800,
+      "max_stall_ms": 200
+    }
+  },
+  {
+    "id": "TC2_playback_speed",
+    "description": "User cycles through playback speeds 0.75x, 1.5x, 2x and expects persistence.",
+    "actions": [
+      {"action": "open_course", "course_id": "C101", "user": "u2"},
+      {"action": "set_speed", "value": 0.75},
+      {"action": "set_speed", "value": 1.5},
+      {"action": "set_speed", "value": 2.0},
+      {"action": "reload_course"},
+      {"action": "observe_state"}
+    ],
+    "initial_state": {
+      "saved_progress_s": 10,
+      "playback_rate": 1.0,
+      "learned_segments": [],
+      "notes": [
+        {"t": 12.5, "text": "Speed-sensitive note"}
+      ]
+    },
+    "network_profile": {
+      "bandwidth_kbps": 3000,
+      "latency_ms": 20,
+      "jitter_ms": 5
+    },
+    "expected_state": {
+      "playback_rate": 2.0,
+      "start_time_s": 10
+    },
+    "acceptance": {
+      "playback_rate_error": 0.05,
+      "max_time_to_first_frame_ms": 600
+    }
+  },
+  {
+    "id": "TC3_auto_skip_learned",
+    "description": "Segments marked as learned should be skipped when auto-skip toggle is enabled.",
+    "actions": [
+      {"action": "open_course", "course_id": "C101", "user": "u3"},
+      {"action": "enable_auto_skip", "value": true},
+      {"action": "play"},
+      {"action": "wait_seconds", "value": 10}
+    ],
+    "initial_state": {
+      "saved_progress_s": 0,
+      "playback_rate": 1.0,
+      "learned_segments": [
+        [0, 30],
+        [90, 105]
+      ],
+      "notes": []
+    },
+    "network_profile": {
+      "bandwidth_kbps": 800,
+      "latency_ms": 80,
+      "jitter_ms": 25
+    },
+    "expected_state": {
+      "skipped_segments": true,
+      "start_time_s": 30
+    },
+    "acceptance": {
+      "resume_accuracy_s": 1.0,
+      "max_time_to_first_frame_ms": 1200
+    }
+  },
+  {
+    "id": "TC4_network_constrained_performance",
+    "description": "Under low bandwidth/high latency the player should still start quickly and adapt quality.",
+    "actions": [
+      {"action": "open_course", "course_id": "C101", "user": "u4"},
+      {"action": "simulate_network", "bandwidth_kbps": 300, "latency_ms": 200},
+      {"action": "observe_state"}
+    ],
+    "initial_state": {
+      "saved_progress_s": 5,
+      "playback_rate": 1.0,
+      "learned_segments": [],
+      "notes": [{"t": 8, "text": "Expect low quality"}]
+    },
+    "network_profile": {
+      "bandwidth_kbps": 300,
+      "latency_ms": 200,
+      "jitter_ms": 60
+    },
+    "expected_state": {
+      "current_quality": "240p",
+      "stalls": "<=2"
+    },
+    "acceptance": {
+      "max_time_to_first_frame_ms": 1800,
+      "max_average_stall_ms": 400
+    }
+  },
+  {
+    "id": "TC5_notes_sync_and_jump",
+    "description": "Hovering/clicking notes should show tooltips and jump to precise timestamps.",
+    "actions": [
+      {"action": "open_course", "course_id": "C101", "user": "u5"},
+      {"action": "add_note", "t": 12.5, "text": "Key point"},
+      {"action": "hover_note", "index": 0},
+      {"action": "click_note", "index": 0}
+    ],
+    "initial_state": {
+      "saved_progress_s": 0,
+      "playback_rate": 1.0,
+      "learned_segments": [],
+      "notes": [
+        {"t": 12.5, "text": "Key point"},
+        {"t": 35.1, "text": "Follow-up"}
+      ]
+    },
+    "network_profile": {
+      "bandwidth_kbps": 1200,
+      "latency_ms": 20,
+      "jitter_ms": 10
+    },
+    "expected_state": {
+      "note_jump_time_s": 12.5,
+      "hover_highlight": true
+    },
+    "acceptance": {
+      "note_jump_accuracy_s": 1.0,
+      "max_time_to_first_frame_ms": 700
+    }
+  }
+]

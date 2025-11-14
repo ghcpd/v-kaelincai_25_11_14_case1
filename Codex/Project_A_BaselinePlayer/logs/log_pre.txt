@@ -1,0 +1,5 @@
+TC1_resume_normal: ttf=91.7ms resume_error=124.70s
+TC2_playback_speed: ttf=90.5ms resume_error=9.00s
+TC3_auto_skip_learned: ttf=103.6ms resume_error=1.00s
+TC4_network_constrained_performance: ttf=245.0ms resume_error=4.00s
+TC5_notes_sync_and_jump: ttf=90.9ms resume_error=1.00s
