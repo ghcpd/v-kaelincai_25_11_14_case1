@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Baseline Course Player</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 24px; background: #fafafa; }
+      #player-container { max-width: 880px; margin: 0 auto; background: #fff; border: 1px solid #ddd; padding: 16px; border-radius: 8px; }
+      video { width: 100%; height: auto; background: #000; }
+      #notes { margin-top: 16px; border: 1px solid #ddd; padding: 12px; border-radius: 6px; min-height: 120px; }
+      .note { padding: 4px 0; border-bottom: 1px dashed #eee; }
+    </style>
+  </head>
+  <body>
+    <div id="player-container">
+      <h2>Baseline Course Player (no enhancements)</h2>
+      <video id="courseVideo" controls muted>
+        <source src="/video/720p" type="video/mp4" />
+        Your browser does not support HTML5 video.
+      </video>
+      <p id="statusText">Speed: fixed 1× | Resume: not supported | Notes: static list</p>
+      <h3>Notes</h3>
+      <div id="notes"></div>
+    </div>
+    <script src="/static/player.js"></script>
+  </body>
+</html>
