@@ -1,0 +1,2 @@
+# PowerShell script to run baseline tests
+python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -r requirements.txt; playwright install; pytest -q --disable-warnings --maxfail=1

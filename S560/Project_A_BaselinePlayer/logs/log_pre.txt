@@ -1,0 +1,1 @@
+Baseline logs placeholder. The server prints progress updates and test-run traces are saved here. Run tests to capture actual logs.
