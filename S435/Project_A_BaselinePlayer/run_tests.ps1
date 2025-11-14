@@ -1,0 +1,1 @@
+python -m venv venv; .\venv\Scripts\Activate.ps1; pip install -r requirements.txt; Start-Process -NoNewWindow -FilePath python -ArgumentList server_pre.py; Start-Sleep -Seconds 1; pytest -q tests/test_pre_unit.py; pytest -q tests/test_pre_e2e.py; Stop-Process -Name python -Force -ErrorAction SilentlyContinue;

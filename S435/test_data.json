@@ -1,0 +1,54 @@
+{
+  "tests": [
+    {
+      "id": "t1",
+      "name": "Normal Resume",
+      "initial": {"user":"u1","course":"C101","saved_time":125.7,"learned_segments":[]},
+      "network": {"bandwidth_kbps":2000,"latency_ms":50},
+      "actions": [{"action":"open_course","time":0}],
+      "expect": {"start_time_s": 125.7, "tolerance_s":1.0}
+    },
+    {
+      "id": "t2",
+      "name": "Playback Speed Tests",
+      "initial": {"user":"u2","course":"C101","saved_time":0},
+      "network": {"bandwidth_kbps":5000,"latency_ms":20},
+      "actions": [
+        {"action":"set_rate","rate":0.75},
+        {"action":"set_rate","rate":1.5},
+        {"action":"set_rate","rate":2}
+      ],
+      "expect": {"rates_applied": [0.75,1.5,2], "av_sync_ok": true}
+    },
+    {
+      "id": "t3",
+      "name": "Auto-skip Learned Segments",
+      "initial": {"user":"u3","course":"C101","saved_time":10, "learned_segments":[{"start":30,"end":60}]},
+      "network": {"bandwidth_kbps":2000,"latency_ms":40},
+      "actions": [
+        {"action":"enable_auto_skip"},
+        {"action":"seek","time":30}
+      ],
+      "expect": {"skipped": true, "final_time":60}
+    },
+    {
+      "id": "t4",
+      "name": "Network-constrained Performance",
+      "initial": {"user":"u4","course":"C101","saved_time":0},
+      "network": {"bandwidth_kbps":150, "latency_ms":150, "packet_loss":0.05},
+      "actions": [{"action":"open_course","time":0}],
+      "expect": {"time_to_first_frame_ms": 800, "max_stall_ms": 300}
+    },
+    {
+      "id": "t5",
+      "name": "Note Sync & Jump",
+      "initial": {"user":"u5","course":"C101","saved_time":0},
+      "network": {"bandwidth_kbps":3000,"latency_ms":30},
+      "actions": [
+        {"action":"add_note","time":120.5,"text":"Key point"},
+        {"action":"hover_note","time":120.5}
+      ],
+      "expect": {"jumped_to":120.5}
+    }
+  ]
+}
