@@ -1,0 +1,8 @@
+{
+  "tiers": [
+    {"label": "360p", "bitrate_kbps": 500},
+    {"label": "480p", "bitrate_kbps": 1200},
+    {"label": "720p", "bitrate_kbps": 2500}
+  ],
+  "adaptive_window_ms": 500
+}

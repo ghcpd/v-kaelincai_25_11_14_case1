@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baseline Course Player</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <h1>Course Player (Baseline)</h1>
+    <div class="video-surface">
+      <div id="video-status">Playing content</div>
+      <div class="video-overlay">Baseline UX</div>
+    </div>
+    <div class="controls">
+      <button id="play-btn">Play</button>
+      <button id="pause-btn">Pause</button>
+      <span id="time-display">0.0s / 300s</span>
+    </div>
+    <div class="timeline">
+      <input id="time-slider" type="range" min="0" max="300" value="0" />
+    </div>
+    <p>Notes (static):</p>
+    <ul id="notes"></ul>
+  </div>
+  <script src="player.js"></script>
+</body>
+</html>

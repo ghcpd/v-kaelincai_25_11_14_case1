@@ -1,0 +1,9 @@
+{
+  "user": "u1",
+  "course": "C101",
+  "last_position": 0,
+  "learned_segments": ["seg1"],
+  "notes": [
+    {"t": 40, "text": "Practice"}
+  ]
+}

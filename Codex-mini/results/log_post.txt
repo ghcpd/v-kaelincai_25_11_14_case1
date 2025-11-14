@@ -1,0 +1,4 @@
+[INFO] Enhanced server started on port 6000
+[INFO] Auto-skip toggled; learned segments updated
+[INFO] Notes hover triggered; quick-jump executed at 225s
+[INFO] Adaptive resolution switched 360p -> 720p

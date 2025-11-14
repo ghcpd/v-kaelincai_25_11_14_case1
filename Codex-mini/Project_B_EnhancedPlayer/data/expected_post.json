@@ -1,0 +1,8 @@
+{
+  "enhancements": {
+    "resume_within_sec": 1,
+    "playback_rates": [0.75, 1, 1.5, 2],
+    "adaptive_resolutions": ["360p", "480p", "720p"],
+    "notes_sync_accuracy_sec": 0.5
+  }
+}
