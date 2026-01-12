@@ -1,0 +1,650 @@
+{
+  "test_cases": [
+    {
+      "test_id": "TC001",
+      "test_name": "Normal Resume from Last Position",
+      "description": "User opens course after closing it, player should resume from saved timestamp",
+      "category": "resume",
+      "initial_conditions": {
+        "user_id": "u1",
+        "course_id": "C101",
+        "course_duration_s": 3600,
+        "previous_playback_position_s": 125.7,
+        "previous_playback_rate": 1.0,
+        "previous_quality": "720p"
+      },
+      "simulated_network": {
+        "bandwidth_mbps": 5.0,
+        "latency_ms": 20,
+        "packet_loss_percent": 0.1
+      },
+      "actions": [
+        {
+          "action": "open_course",
+          "course_id": "C101",
+          "user": "u1"
+        },
+        {
+          "action": "wait_for_playback_ready",
+          "expected_time_to_first_frame_ms": 800
+        }
+      ],
+      "expected_intermediate_states": [
+        {
+          "step": 1,
+          "player_state": {
+            "status": "ready",
+            "current_time_s": 125.7,
+            "playback_rate": 1.0,
+            "current_quality": "720p",
+            "playing": false
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "resume_accuracy_tolerance_s": 1.0,
+        "time_to_first_frame_max_ms": 800,
+        "quality_maintained": true
+      },
+      "expected_result": {
+        "pass": true,
+        "metrics": {
+          "resume_position_error_s": 0.0,
+          "time_to_first_frame_ms": 650,
+          "stalls_count": 0,
+          "avg_stall_duration_ms": 0
+        }
+      }
+    },
+    {
+      "test_id": "TC002",
+      "test_name": "Playback Speed Adjustments (0.75x, 1.5x, 2x)",
+      "description": "User changes playback speed and verifies immediate application and persistence",
+      "category": "playback_speed",
+      "initial_conditions": {
+        "user_id": "u2",
+        "course_id": "C101",
+        "course_duration_s": 3600,
+        "current_playback_position_s": 300,
+        "initial_playback_rate": 1.0,
+        "current_quality": "720p"
+      },
+      "simulated_network": {
+        "bandwidth_mbps": 5.0,
+        "latency_ms": 20,
+        "packet_loss_percent": 0.1
+      },
+      "actions": [
+        {
+          "action": "open_course",
+          "course_id": "C101",
+          "user": "u2"
+        },
+        {
+          "action": "set_playback_rate",
+          "rate": 0.75
+        },
+        {
+          "action": "wait_playback_ms",
+          "duration_ms": 2000
+        },
+        {
+          "action": "set_playback_rate",
+          "rate": 1.5
+        },
+        {
+          "action": "wait_playback_ms",
+          "duration_ms": 2000
+        },
+        {
+          "action": "set_playback_rate",
+          "rate": 2.0
+        },
+        {
+          "action": "wait_playback_ms",
+          "duration_ms": 2000
+        },
+        {
+          "action": "close_and_reopen_course",
+          "course_id": "C101",
+          "user": "u2"
+        }
+      ],
+      "expected_intermediate_states": [
+        {
+          "step": 2,
+          "player_state": {
+            "playback_rate": 0.75,
+            "playing": true
+          }
+        },
+        {
+          "step": 4,
+          "player_state": {
+            "playback_rate": 1.5,
+            "playing": true
+          }
+        },
+        {
+          "step": 6,
+          "player_state": {
+            "playback_rate": 2.0,
+            "playing": true
+          }
+        },
+        {
+          "step": 8,
+          "player_state": {
+            "playback_rate": 2.0,
+            "comment": "Should persist across session"
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "speed_change_latency_ms": 100,
+        "av_sync_drift_tolerance_ms": 50,
+        "persistence_after_reopen": true
+      },
+      "expected_result": {
+        "pass": true,
+        "metrics": {
+          "speed_0_75x_applied": true,
+          "speed_1_5x_applied": true,
+          "speed_2_0x_applied": true,
+          "persisted_after_reopen": true,
+          "av_sync_maintained": true
+        }
+      }
+    },
+    {
+      "test_id": "TC003",
+      "test_name": "Auto-Skip Learned Segments",
+      "description": "Mark content as learned and verify auto-skip skips only learned segments",
+      "category": "auto_skip",
+      "initial_conditions": {
+        "user_id": "u3",
+        "course_id": "C102",
+        "course_duration_s": 3600,
+        "learned_segments": [
+          {
+            "segment_id": "S1",
+            "start_s": 100,
+            "end_s": 200,
+            "title": "Introduction to Basics"
+          },
+          {
+            "segment_id": "S3",
+            "start_s": 500,
+            "end_s": 700,
+            "title": "Advanced Concepts"
+          }
+        ],
+        "unlearned_segments": [
+          {
+            "segment_id": "S2",
+            "start_s": 200,
+            "end_s": 500,
+            "title": "Core Principles"
+          }
+        ],
+        "auto_skip_enabled": true
+      },
+      "simulated_network": {
+        "bandwidth_mbps": 5.0,
+        "latency_ms": 20,
+        "packet_loss_percent": 0.1
+      },
+      "actions": [
+        {
+          "action": "open_course",
+          "course_id": "C102",
+          "user": "u3"
+        },
+        {
+          "action": "enable_auto_skip"
+        },
+        {
+          "action": "seek_to",
+          "time_s": 50
+        },
+        {
+          "action": "play"
+        },
+        {
+          "action": "wait_for_segment_skip"
+        },
+        {
+          "action": "check_current_position"
+        },
+        {
+          "action": "wait_until_segment_s",
+          "time_s": 250
+        },
+        {
+          "action": "check_not_skipped"
+        },
+        {
+          "action": "wait_until_segment_s",
+          "time_s": 600
+        },
+        {
+          "action": "wait_for_segment_skip"
+        },
+        {
+          "action": "check_current_position"
+        }
+      ],
+      "expected_intermediate_states": [
+        {
+          "step": 5,
+          "player_state": {
+            "comment": "After hitting segment S1 start",
+            "auto_skip_triggered": true
+          }
+        },
+        {
+          "step": 6,
+          "player_state": {
+            "current_time_s": 200,
+            "comment": "Should have jumped to end of learned segment S1"
+          }
+        },
+        {
+          "step": 8,
+          "player_state": {
+            "current_time_s": 250,
+            "comment": "Should be playing unlearned segment S2, not skipped"
+          }
+        },
+        {
+          "step": 10,
+          "player_state": {
+            "auto_skip_triggered": true,
+            "comment": "Segment S3 should be auto-skipped"
+          }
+        },
+        {
+          "step": 11,
+          "player_state": {
+            "current_time_s": 700,
+            "comment": "Should jump to end of learned segment S3"
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "learned_segments_skipped": true,
+        "unlearned_segments_not_skipped": true,
+        "skip_accuracy_s": 1.0,
+        "no_double_skip": true
+      },
+      "expected_result": {
+        "pass": true,
+        "metrics": {
+          "learned_segments_skipped_count": 2,
+          "unlearned_segments_played": 1,
+          "skip_errors": 0,
+          "total_time_saved_s": 300
+        }
+      }
+    },
+    {
+      "test_id": "TC004",
+      "test_name": "Network-Constrained Performance (Low Bandwidth & High Latency)",
+      "description": "Validate player performance under degraded network: time-to-first-frame, rebuffer events, quality switching",
+      "category": "network_performance",
+      "initial_conditions": {
+        "user_id": "u4",
+        "course_id": "C103",
+        "course_duration_s": 3600,
+        "initial_quality": "1080p",
+        "available_qualities": ["1080p", "720p", "480p", "360p"],
+        "start_position_s": 0
+      },
+      "simulated_network": {
+        "bandwidth_mbps": 1.5,
+        "latency_ms": 150,
+        "packet_loss_percent": 2.0,
+        "jitter_ms": 50
+      },
+      "actions": [
+        {
+          "action": "open_course",
+          "course_id": "C103",
+          "user": "u4"
+        },
+        {
+          "action": "wait_for_playback_ready",
+          "expected_time_to_first_frame_ms": 2000
+        },
+        {
+          "action": "play"
+        },
+        {
+          "action": "monitor_playback_metrics",
+          "duration_s": 30
+        },
+        {
+          "action": "check_quality_switches"
+        },
+        {
+          "action": "measure_stalls"
+        }
+      ],
+      "expected_intermediate_states": [
+        {
+          "step": 2,
+          "player_state": {
+            "status": "buffering",
+            "estimated_time_to_first_frame_ms": 1200
+          }
+        },
+        {
+          "step": 3,
+          "player_state": {
+            "status": "playing",
+            "current_quality": "480p",
+            "comment": "Should adapt to lower quality"
+          }
+        },
+        {
+          "step": 4,
+          "player_state": {
+            "comment": "Monitor for rebuffer events"
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "time_to_first_frame_max_ms": 2500,
+        "rebuffer_events_max": 5,
+        "avg_stall_duration_max_ms": 800,
+        "resolution_switch_stall_max_ms": 300,
+        "quality_adaptation_enabled": true
+      },
+      "expected_result": {
+        "pass": true,
+        "metrics": {
+          "time_to_first_frame_ms": 1800,
+          "rebuffer_events": 3,
+          "total_stall_time_s": 4.5,
+          "avg_stall_duration_ms": 400,
+          "quality_switches": 2,
+          "final_quality": "480p",
+          "playback_completed_percent": 100
+        }
+      }
+    },
+    {
+      "test_id": "TC005",
+      "test_name": "Note Synchronization and Hover-to-Jump",
+      "description": "Create notes with timestamps, verify sync with playback, and test hover/click to jump functionality",
+      "category": "note_sync",
+      "initial_conditions": {
+        "user_id": "u5",
+        "course_id": "C104",
+        "course_duration_s": 3600,
+        "current_playback_position_s": 0,
+        "notes": [
+          {
+            "note_id": "N1",
+            "timestamp_s": 45.5,
+            "text": "Key point about introduction",
+            "created_at": "2025-11-14T10:00:00Z"
+          },
+          {
+            "note_id": "N2",
+            "timestamp_s": 125.7,
+            "text": "Remember this concept for later",
+            "created_at": "2025-11-14T10:05:30Z"
+          },
+          {
+            "note_id": "N3",
+            "timestamp_s": 300.2,
+            "text": "Practical example: calculate Z when X=5, Y=10",
+            "created_at": "2025-11-14T10:10:15Z"
+          }
+        ]
+      },
+      "simulated_network": {
+        "bandwidth_mbps": 5.0,
+        "latency_ms": 20,
+        "packet_loss_percent": 0.1
+      },
+      "actions": [
+        {
+          "action": "open_course",
+          "course_id": "C104",
+          "user": "u5"
+        },
+        {
+          "action": "load_notes"
+        },
+        {
+          "action": "seek_to",
+          "time_s": 40
+        },
+        {
+          "action": "play"
+        },
+        {
+          "action": "wait_until_timestamp_s",
+          "time_s": 45.5
+        },
+        {
+          "action": "check_note_highlight",
+          "note_id": "N1"
+        },
+        {
+          "action": "hover_note",
+          "note_id": "N2"
+        },
+        {
+          "action": "click_note",
+          "note_id": "N2"
+        },
+        {
+          "action": "check_player_position",
+          "expected_time_s": 125.7
+        },
+        {
+          "action": "hover_note",
+          "note_id": "N3"
+        },
+        {
+          "action": "click_note",
+          "note_id": "N3"
+        },
+        {
+          "action": "check_player_position",
+          "expected_time_s": 300.2
+        }
+      ],
+      "expected_intermediate_states": [
+        {
+          "step": 6,
+          "player_state": {
+            "current_time_s": 45.5,
+            "highlighted_note": "N1",
+            "note_popover_visible": true
+          }
+        },
+        {
+          "step": 9,
+          "player_state": {
+            "current_time_s": 125.7,
+            "highlighted_note": "N2",
+            "comment": "Clicked note should jump to correct timestamp"
+          }
+        },
+        {
+          "step": 12,
+          "player_state": {
+            "current_time_s": 300.2,
+            "highlighted_note": "N3"
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "note_timestamp_sync_tolerance_s": 0.5,
+        "jump_accuracy_s": 1.0,
+        "note_highlight_accuracy_s": 0.5,
+        "hover_popover_displays": true
+      },
+      "expected_result": {
+        "pass": true,
+        "metrics": {
+          "notes_loaded": 3,
+          "note_sync_errors": 0,
+          "jump_accuracy_n1_s": 0.0,
+          "jump_accuracy_n2_s": 0.0,
+          "jump_accuracy_n3_s": 0.0,
+          "highlight_timing_accuracy_s": 0.3,
+          "popover_response_time_ms": 50
+        }
+      }
+    },
+    {
+      "test_id": "TC006",
+      "test_name": "Offline Resume and Session Recovery",
+      "description": "Test graceful handling of offline state and resume after network recovery",
+      "category": "offline_resilience",
+      "initial_conditions": {
+        "user_id": "u6",
+        "course_id": "C105",
+        "course_duration_s": 3600,
+        "current_playback_position_s": 500,
+        "playback_rate": 1.25,
+        "current_quality": "720p"
+      },
+      "simulated_network": {
+        "bandwidth_mbps": 5.0,
+        "latency_ms": 20,
+        "packet_loss_percent": 0.1,
+        "network_events": [
+          {
+            "event": "disconnect",
+            "at_position_s": 550
+          },
+          {
+            "event": "reconnect",
+            "after_seconds": 15
+          }
+        ]
+      },
+      "actions": [
+        {
+          "action": "open_course",
+          "course_id": "C105",
+          "user": "u6"
+        },
+        {
+          "action": "play"
+        },
+        {
+          "action": "wait_until_position_s",
+          "time_s": 550
+        },
+        {
+          "action": "simulate_network_disconnect"
+        },
+        {
+          "action": "wait_seconds",
+          "duration": 5
+        },
+        {
+          "action": "check_player_state_offline"
+        },
+        {
+          "action": "simulate_network_reconnect"
+        },
+        {
+          "action": "wait_for_resume",
+          "timeout_s": 10
+        },
+        {
+          "action": "check_recovery_state"
+        }
+      ],
+      "expected_intermediate_states": [
+        {
+          "step": 4,
+          "player_state": {
+            "status": "disconnected",
+            "last_position_s": 550,
+            "playback_rate": 1.25
+          }
+        },
+        {
+          "step": 6,
+          "player_state": {
+            "status": "offline",
+            "buffered_seconds": 30,
+            "comment": "Should show buffered content or offline message"
+          }
+        },
+        {
+          "step": 9,
+          "player_state": {
+            "status": "reconnected",
+            "current_time_s": 550,
+            "playback_rate": 1.25,
+            "comment": "Should restore state after reconnection"
+          }
+        }
+      ],
+      "acceptance_criteria": {
+        "offline_state_detected": true,
+        "recovery_position_accuracy_s": 2.0,
+        "rate_persistence_after_recovery": true,
+        "recovery_time_max_s": 10
+      },
+      "expected_result": {
+        "pass": true,
+        "metrics": {
+          "disconnection_detected": true,
+          "position_preserved": 550,
+          "rate_preserved": 1.25,
+          "recovery_successful": true,
+          "recovery_time_s": 8.5,
+          "data_loss": 0
+        }
+      }
+    }
+  ],
+  "network_profiles": {
+    "good_network": {
+      "bandwidth_mbps": 10.0,
+      "latency_ms": 20,
+      "packet_loss_percent": 0.1,
+      "jitter_ms": 5
+    },
+    "moderate_network": {
+      "bandwidth_mbps": 5.0,
+      "latency_ms": 50,
+      "packet_loss_percent": 0.5,
+      "jitter_ms": 20
+    },
+    "poor_network": {
+      "bandwidth_mbps": 1.5,
+      "latency_ms": 150,
+      "packet_loss_percent": 2.0,
+      "jitter_ms": 50
+    },
+    "mobile_3g": {
+      "bandwidth_mbps": 0.5,
+      "latency_ms": 300,
+      "packet_loss_percent": 5.0,
+      "jitter_ms": 100
+    }
+  },
+  "thresholds": {
+    "time_to_first_frame_max_ms": 800,
+    "resume_accuracy_tolerance_s": 1.0,
+    "playback_speed_change_latency_ms": 100,
+    "av_sync_drift_tolerance_ms": 50,
+    "rebuffer_events_max": 5,
+    "avg_stall_duration_max_ms": 800,
+    "resolution_switch_stall_max_ms": 300,
+    "note_sync_tolerance_s": 0.5,
+    "note_jump_accuracy_s": 1.0
+  }
+}

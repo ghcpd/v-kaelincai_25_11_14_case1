@@ -1,0 +1,135 @@
+{
+  "users": [
+    {
+      "user_id": "u1",
+      "name": "Alice Johnson",
+      "email": "alice@example.com"
+    },
+    {
+      "user_id": "u2",
+      "name": "Bob Smith",
+      "email": "bob@example.com"
+    },
+    {
+      "user_id": "u3",
+      "name": "Charlie Brown",
+      "email": "charlie@example.com"
+    }
+  ],
+  "courses": [
+    {
+      "course_id": "C101",
+      "title": "Introduction to Python",
+      "duration_s": 3600,
+      "segments": [
+        {
+          "segment_id": "S1",
+          "title": "Welcome & Setup",
+          "start_s": 0,
+          "end_s": 300,
+          "type": "intro"
+        },
+        {
+          "segment_id": "S2",
+          "title": "Variables and Data Types",
+          "start_s": 300,
+          "end_s": 900,
+          "type": "core"
+        },
+        {
+          "segment_id": "S3",
+          "title": "Control Flow",
+          "start_s": 900,
+          "end_s": 1500,
+          "type": "core"
+        }
+      ]
+    },
+    {
+      "course_id": "C102",
+      "title": "Advanced Python",
+      "duration_s": 3600
+    },
+    {
+      "course_id": "C103",
+      "title": "Web Development Basics",
+      "duration_s": 3600
+    },
+    {
+      "course_id": "C104",
+      "title": "Data Science 101",
+      "duration_s": 3600
+    },
+    {
+      "course_id": "C105",
+      "title": "Cloud Computing",
+      "duration_s": 3600
+    }
+  ],
+  "sample_progress": {
+    "u1_C101": {
+      "user_id": "u1",
+      "course_id": "C101",
+      "last_position_s": 125.7,
+      "playback_rate": 1.25,
+      "quality": "720p",
+      "completed_percent": 3.5,
+      "timestamp": "2025-11-14T10:30:00Z"
+    },
+    "u2_C102": {
+      "user_id": "u2",
+      "course_id": "C102",
+      "last_position_s": 450.2,
+      "playback_rate": 1.5,
+      "quality": "1080p",
+      "completed_percent": 12.5,
+      "timestamp": "2025-11-14T11:00:00Z"
+    }
+  },
+  "sample_learned_segments": {
+    "u1_C101": [
+      {
+        "segment_id": "S1",
+        "start_s": 0,
+        "end_s": 300,
+        "marked_at": "2025-11-14T10:15:00Z"
+      }
+    ],
+    "u3_C102": [
+      {
+        "segment_id": "S1",
+        "start_s": 100,
+        "end_s": 200,
+        "marked_at": "2025-11-14T09:45:00Z"
+      },
+      {
+        "segment_id": "S3",
+        "start_s": 500,
+        "end_s": 700,
+        "marked_at": "2025-11-14T10:00:00Z"
+      }
+    ]
+  },
+  "sample_notes": {
+    "u1_C101": [
+      {
+        "note_id": "N1",
+        "timestamp_s": 45.5,
+        "text": "Key concept: Variables store data in memory",
+        "created_at": "2025-11-14T10:05:00Z"
+      },
+      {
+        "note_id": "N2",
+        "timestamp_s": 125.7,
+        "text": "Remember: Use meaningful variable names",
+        "created_at": "2025-11-14T10:10:00Z"
+      },
+      {
+        "note_id": "N3",
+        "timestamp_s": 300.2,
+        "text": "Example: Calculate area = length * width",
+        "created_at": "2025-11-14T10:20:00Z"
+      }
+    ]
+  }
+}
